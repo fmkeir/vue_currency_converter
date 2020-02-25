@@ -6,16 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     data: {
       exchangeRates: [],
       currencyToSwitchTo: null,
-      euroValue: null,
-      otherValue: null
+      euroBox: null,
+      otherBox: null
     },
     mounted(){
       this.fetchExchangeRates();
     },
     computed: {
-      otherFromEuro: function(){
-        return this.euroValue * this.exchangeRates[this.currencyToSwitchTo]
-      }
+      // otherBox: function(){
+      //   return this.euroValue * this.exchangeRates[this.currencyToSwitchTo]
+      // }
     },
     methods: {
       fetchExchangeRates: function(){
@@ -25,6 +25,23 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       setExchangeRates: function(rates){
         this.exchangeRates = rates
+      },
+      convertToOther: function(event){
+        if (this.currencyToSwitchTo){
+          this.euroBox = event.target.value
+          this.otherBox = (this.euroBox * this.exchangeRates[this.currencyToSwitchTo]).toFixed(2)
+        }
+      },
+      convertToEuro: function(event){
+        if (this.currencyToSwitchTo){
+          this.otherBox = event.target.value
+          this.euroBox = (this.otherBox / this.exchangeRates[this.currencyToSwitchTo]).toFixed(2)
+        }
+      },
+      currencySwitch: function(){
+        if (this.currencyToSwitchTo){
+          this.otherBox = (this.euroBox * this.exchangeRates[this.currencyToSwitchTo]).toFixed(2)
+        }
       }
     }
   })

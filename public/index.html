@@ -4,17 +4,21 @@
     <meta charset="utf-8">
     <title>Currency Converter</title>
     <script src="./js/bundle.js"></script>
+    <link rel="stylesheet" href="./css/styles.css">
   </head>
   <body>
     <h1>Currency exchanger</h1>
     <div id="app">
-      <input type="number" step="0.01" placeholder="value in euros" v-model.number="euroValue">
-      <select v-model="currencyToSwitchTo">
+      <input type="number" step="0.01" placeholder="value in euros" v-model="euroBox" @keyup="convertToOther($event)">
+
+      <select v-model="currencyToSwitchTo" @change="currencySwitch">
         <option v-for="(rate, currency) in exchangeRates" :value="currency">{{currency}}</option>
       </select>
-      <input v-if="currencyToSwitchTo" type="number" step="0.01" :placeholder="`Value in ${currencyToSwitchTo}`" v-model.number="otherValue">
-      <span v-if="!currencyToSwitchTo" type="number" step="0.01"> Select a currency</span>
-      <p v-if="euroValue && currencyToSwitchTo">{{otherFromEuro}}</p>
+
+      <input v-if="currencyToSwitchTo && euroBox" type="number" step="0.01" :placeholder="`Value in ${currencyToSwitchTo}`" v-model="otherBox" @keyup="convertToEuro($event)">
+
+      <span v-if="!(currencyToSwitchTo && euroBox)" type="number" step="0.01"> Select a currency</span>
+
     </div>
   </body>
 </html>
